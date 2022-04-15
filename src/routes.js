@@ -6,26 +6,30 @@ import { useBearerToken } from "./spotify.js";
 export const routes = Router();
 
 routes.get("/", (req, res) => res.render("index"));
-routes.get("/search", (req, res) => res.render("search", { data: "" }));
+routes.get("/search", (req, res) =>
+  res.render("search", { artists: null, error: null })
+);
 
 routes.post("/search", async (req, res) => {
-  // parse req.body;
-  // if not OK -> res.send(400)
-  // grab token from file
-  // if token needs refresh
-  // -> refresh token
-  // -> update token file
-  // send request to endpoint
-  // if response is err
-  // -> render err
-  // else
-  // -> render res
-
   // Fetch API token
   const token = await useBearerToken();
 
-  // TODO: Check malformed input
+  // Check some simple malformed input
   const formData = req.body;
+
+  if (!formData.artist) {
+    res
+      .status(400)
+      .send("HTTP Error 400 - Bad Request: Artists field is missing");
+    return;
+  }
+
+  if (formData.artist.length < 1) {
+    res
+      .status(400)
+      .send("HTTP Error 400 - Bad Request: Minimum search length is 1");
+    return;
+  }
 
   // Construct API URL
   const url = new URL("https://api.spotify.com/v1/search");
@@ -45,11 +49,21 @@ routes.post("/search", async (req, res) => {
   })
     .then((r) => r.json())
     .then((data) => {
-      // Parse the received data
-
       /** @type {SearchResponse} */
       const results = data;
 
+      // if results have error object, render error message and return early
+      if (results.error) {
+        res.render("search", {
+          cache: false,
+          artists: null,
+          error: results.error,
+        });
+
+        return;
+      }
+
+      // Artists object have lots of info, parse only those that we need
       const artists = results.artists.items.map((x) => {
         return {
           name: x.name,
@@ -58,17 +72,22 @@ routes.post("/search", async (req, res) => {
         };
       });
 
-      console.log(artists);
-
       // re-render the search page with our new data and force caching to be disabled
-      res.render("search", { cache: false, data: artists });
+      res.render("search", { cache: false, artists: artists, error: null });
     });
 });
 
 // All of these JSDoc type definitions are only to give hints to IDE.
 /**
  * @typedef {Object} SearchResponse
- * @property {Artists} artists
+ * @property {Artists?} artists
+ * @property {ErrorResponse?} error
+ */
+
+/**
+ * @typedef {Object} ErrorResponse
+ * @property {number} status
+ * @property {string} message
  */
 
 /**

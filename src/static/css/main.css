@@ -36,3 +36,7 @@ img {
   max-height: 160px;
   width: auto;
 }
+
+main.pure-u-1 > div.pure-g {
+  margin: 1em;
+}
