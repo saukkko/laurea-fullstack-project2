@@ -5,7 +5,11 @@
   </tr>
   <% artists.forEach((x) => { %>
   <tr>
-    <td><a href="<%= x.url %>"><%= x.name %></a></td>
+    <td>
+      <a rel="noopener noreferrer" target="_blank" href="<%= x.url %>"
+        ><%= x.name %></a
+      >
+    </td>
     <% if (!x.img || !x.img.url) { %>
     <td>
       <!--
