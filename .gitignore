@@ -1,0 +1,4 @@
+.env
+token.json
+.vscode/
+node_modules/

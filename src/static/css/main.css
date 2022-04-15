@@ -1,0 +1,33 @@
+nav,
+h1,
+h2,
+h3 {
+  font-family: "Open Sans", "sans-serif";
+}
+
+main,
+footer {
+  font-family: "Roboto", "sans-serif";
+}
+
+body {
+  background-color: whitesmoke;
+}
+
+nav {
+  background-color: wheat;
+}
+
+footer {
+  height: 4em;
+  background-color: wheat;
+}
+
+.justify {
+  padding: 0 0.5em;
+  text-align: justify;
+}
+
+.footer-text {
+  margin: 0.5em;
+}

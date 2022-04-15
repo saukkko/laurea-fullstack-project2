@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include("partials/htmlhead") -%>
+  <body class="pure-g">
+    <header class="pure-u-1"><%- include("partials/navbar") -%></header>
+    <main class="pure-u-1">
+      <div class="pure-g">
+        <form class="pure-form pure-u-1" method="post" action="/search">
+          <fieldset>
+            <legend>Find artist on Spotify</legend>
+            <input type="text" placeholder="Artist" id="artist" name="artist" />
+            <button type="submit" class="pure-button pure-button-primary">
+              Search
+            </button>
+          </fieldset>
+        </form>
+        <div class="pure-u-1"><%- include("results", { data: data }) -%></div>
+      </div>
+    </main>
+    <footer class="pure-u-1"><%- include("partials/footer") -%></footer>
+  </body>
+</html>
