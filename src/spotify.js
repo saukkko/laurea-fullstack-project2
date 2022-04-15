@@ -17,8 +17,10 @@ export const useBearerToken = async () => {
   let token = await readBearerToken();
 
   // if token does not exist or token has expired, then get new token
-  const { updated, expires_in } = token;
-  if (!token || updated + expires_in * 1000 <= new Date().getTime()) {
+  if (
+    !token ||
+    token.updated + token.expires_in * 1000 <= new Date().getTime()
+  ) {
     await getNewBearerToken();
     token = await readBearerToken();
   }
