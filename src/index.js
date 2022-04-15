@@ -9,7 +9,15 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", "./src/views");
 
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        imgSrc: ["'self'", "i.scdn.co"],
+      },
+    },
+  })
+);
 app.use(express.static("./src/static", { maxAge: 3600 * 1000 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(routes);

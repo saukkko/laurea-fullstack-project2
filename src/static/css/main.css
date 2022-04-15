@@ -31,3 +31,8 @@ footer {
 .footer-text {
   margin: 0.5em;
 }
+
+img {
+  max-height: 160px;
+  width: auto;
+}
