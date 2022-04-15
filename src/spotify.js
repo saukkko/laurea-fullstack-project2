@@ -71,14 +71,14 @@ const getNewBearerToken = async () => {
   });
 
   // Handle the response from the API.
-  res
+  await res
     .catch(console.error)
     .then((res) => res.json())
-    .then((data) => {
+    .then(async (data) => {
       // Store updated time to file so we know when to update token
       data.updated = new Date().getTime();
       // Write token data to file
-      writeFile("./token.json", JSON.stringify(data));
+      await writeFile("./token.json", JSON.stringify(data));
     });
 };
 
